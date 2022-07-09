@@ -1,0 +1,23 @@
+include:
+  - 'stages.yml'
+
+stages:
+  - plan
+  - deploy
+
+plan:
+  extends: .terraform:plan
+
+deploy:
+  extends: .terraform:deploy
+  dependencies:
+    - plan
+  environment:
+    name: $TF_STATE_NAME
+
+variables:
+  TF_STATE_NAME: default
+  TF_CACHE_KEY: default
+  TF_ROOT: terraform
+
+  
